@@ -16,52 +16,60 @@ import dj_database_url
 from django.core.exceptions import ImproperlyConfigured
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-import os
-from pathlib import Path
-import dj_database_url
-
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+
+# Quick-start development settings - unsuitable for production
+# See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
+
+# # SECURITY WARNING: keep the secret key used in production secret!
+# SECRET_KEY = os.environ.get(
+#     "DJANGO_SECRET_KEY",
+#     "django-insecure-3@0*680l(3*5lkx))18k)x@#&zc)j_+vb6vf30e=ht1r1a%*_j",
+# )
+
+# SECURITY WARNING: don't run with debug turned on in production!
+# On Render, default DEBUG to off unless DJANGO_DEBUG is explicitly enabled.
 # DEBUG
 _default_debug = "False" if os.environ.get("RENDER") else "True"
 DEBUG = os.environ.get("DJANGO_DEBUG", _default_debug).lower() in ("1", "true", "yes")
 
-# ALLOWED HOSTS
+# ALLOWED HOSTS (FIXED)
 ALLOWED_HOSTS = ['salon-4ie5.onrender.com']
 
 render_hostname = os.environ.get("RENDER_EXTERNAL_HOSTNAME")
 if render_hostname:
     ALLOWED_HOSTS.append(render_hostname)
 
-# CSRF
-CSRF_TRUSTED_ORIGINS = [
-    f"https://{render_hostname}"
-] if render_hostname else []
 
-# SECURITY (Render)
+# if not DEBUG and "django-insecure" in SECRET_KEY:
+#     raise ImproperlyConfigured("Set DJANGO_SECRET_KEY in the environment for production.")
+
+# HTTPS behind Render’s reverse proxy (see https://docs.djangoproject.com/en/stable/ref/settings/#secure-proxy-ssl-header)
 if not DEBUG:
     SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
     USE_X_FORWARDED_HOST = True
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
     SECURE_SSL_REDIRECT = True
+    SECURE_BROWSER_XSS_FILTER = True
+    SECURE_CONTENT_TYPE_NOSNIFF = True
+    SECURE_HSTS_SECONDS = 31536000
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 
-# DATABASE
-if os.environ.get("DATABASE_URL"):
-    DATABASES = {
-        "default": dj_database_url.config(conn_max_age=600),
-    }
-else:
-    DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.sqlite3",
-            "NAME": BASE_DIR / "db.sqlite3",
-        }
-    }
 
-# STATIC FILES
-STATIC_URL = "/static/"
-STATIC_ROOT = BASE_DIR / "staticfiles"
+# Application definition
+
+INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'myapp',
+]
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -73,7 +81,6 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
-
 
 ROOT_URLCONF = 'salon1.urls'
 
