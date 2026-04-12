@@ -31,7 +31,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: don't run with debug turned on in production!
 # On Render, default DEBUG to off unless DJANGO_DEBUG is explicitly enabled.
 # DEBUG
-_default_debug = "False" if os.environ.get("RENDER") else "True"
+_default_debug = "True"
 DEBUG = os.environ.get("DJANGO_DEBUG", _default_debug).lower() in ("1", "true", "yes")
 
 # ALLOWED HOSTS (FIXED)
