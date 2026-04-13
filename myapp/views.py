@@ -108,7 +108,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages   # 👈 add this
 from .forms import ContactForm
 
-@login_required(login_url='/login/')
+# @login_required(login_url='/login/')
 def contact(request):
     if request.method == "POST":
         form = ContactForm(request.POST)
@@ -123,4 +123,4 @@ def contact(request):
     else:
         form = ContactForm()
 
-    return render(request, 'contact.html', {'form': form})  # only if file exists
+    return render(request, 'myapp/contact.html', {'form': form})  # only if file exists
