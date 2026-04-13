@@ -116,11 +116,11 @@ def contact(request):
         if form.is_valid():
             form.save()
             messages.success(request, "✨ Your message has been submitted successfully!")
-            return redirect('contact')   # ✅ FIXED
+            return redirect('contact')   # ✅ correct
         else:
             messages.error(request, "❌ Something went wrong. Please try again.")
 
     else:
         form = ContactForm()
 
-    return render(request, 'myapp/contact.html', {'form': form})  # only if file exists
+    return render(request, 'myapp/contact.html', {'form': form})   # ✅ correct 
