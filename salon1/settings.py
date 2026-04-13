@@ -37,7 +37,11 @@ _default_debug = "True"
 DEBUG = os.environ.get("DJANGO_DEBUG", _default_debug).lower() in ("1", "true", "yes")
 
 # ALLOWED HOSTS (FIXED)
-ALLOWED_HOSTS = ['salon-4ie5.onrender.com']
+ALLOWED_HOSTS = [
+    "127.0.0.1",
+    "localhost",
+    "salon-4ie5.onrender.com"
+]
 
 render_hostname = os.environ.get("RENDER_EXTERNAL_HOSTNAME")
 if render_hostname:
