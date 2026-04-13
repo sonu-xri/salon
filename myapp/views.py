@@ -118,7 +118,7 @@ def contact(request):
 
             messages.success(request, "✨ Your message has been submitted successfully!")  # ✅
 
-            return redirect('myapp/contact.html')
+            return redirect('contact.html')
 
         else:
             messages.error(request, "❌ Something went wrong. Please try again.")
@@ -126,4 +126,4 @@ def contact(request):
     else:
         form = ContactForm()
 
-    return render(request, 'myapp/contact.html', {'form': form})
+    return render(request, 'contact.html', {'form': form})
