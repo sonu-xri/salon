@@ -108,22 +108,19 @@ from django.shortcuts import render, redirect
 from django.contrib import messages   # 👈 add this
 from .forms import ContactForm
 
-@login_required(login_url='/login/') 
+@login_required(login_url='/login/')
 def contact(request):
     if request.method == "POST":
         form = ContactForm(request.POST)
 
         if form.is_valid():
             form.save()
-
-            messages.success(request, "✨ Your message has been submitted successfully!")  # ✅
-
-            return redirect('contact.html')
-
+            messages.success(request, "✨ Your message has been submitted successfully!")
+            return redirect('contact')   # ✅ FIXED
         else:
             messages.error(request, "❌ Something went wrong. Please try again.")
 
     else:
         form = ContactForm()
 
-    return render(request, 'contact.html', {'form': form})
+    return render(request, 'contact.html', {'form': form})  # only if file exists
