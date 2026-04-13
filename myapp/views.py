@@ -118,7 +118,7 @@ def contact(request):
 
             messages.success(request, "✨ Your message has been submitted successfully!")  # ✅
 
-            return redirect('contact')
+            return redirect('myapp/contact.html')
 
         else:
             messages.error(request, "❌ Something went wrong. Please try again.")
